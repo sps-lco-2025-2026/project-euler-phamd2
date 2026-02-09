@@ -19,22 +19,24 @@ void coinsum()
     Console.WriteLine(ways[target]);
 }
 
-coinsum();
 
 // Problem 50
 void consecutiveprimesum()
 {
     int highest = 0;
+    int maxLength = 0;
     int currentTotal = 0;
-    int n = 1000;
-    List<int> primes = new List<int> { };
+    int n = 1000000;
+
+    List<int> primes = new List<int>();
+
     for (int i = 2; i <= n; i++)
     {
         bool isPrime = true;
 
-        for (int j = 2; j * j <= i; j++)
+        for (int a = 2; a * a <= i; a++)
         {
-            if (i % j == 0)
+            if (i % a == 0)
             {
                 isPrime = false;
                 break;
@@ -48,10 +50,25 @@ void consecutiveprimesum()
     }
     for (int j = 0; j < primes.Count; j++)
     {
-        currentTotal += primes[j];
-        if (primes.Contains(currentTotal))
-            highest = currentTotal;
+        currentTotal = 0;
+
+        for (int k = j; k < primes.Count; k++)
+        {
+            currentTotal += primes[k];
+            int length = k - j + 1;
+
+            if (currentTotal > n)
+                break;
+
+            if (primes.Contains(currentTotal) && length > maxLength)
+            {
+                maxLength = length;
+                highest = currentTotal;
+            }
+        }
     }
+
     Console.WriteLine(highest);
 }
 
+consecutiveprimesum();
